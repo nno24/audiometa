@@ -10,3 +10,11 @@ body {
     min-height: 100vh;
     flex-direction: column;
   }
+
+  .msg-success {
+      color: greenyellow;
+  }
+
+  .msg-error {
+    color: red;
+}

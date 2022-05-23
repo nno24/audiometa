@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Hello world</h1>
+<div class="container">
+    <div class="row">
+        {% for msg in messages %}
+        {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <p class="msg-success">{{ msg }}</p>
+        {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <p class="msg-error">{{ msg }}</p>
+        {% endif %}
+        {% endfor %}
+        <form action="{% url 'upload_media' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{audioform.as_table}}
+            <button class="btn waves-effect waves-light" type="submit">Save</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
