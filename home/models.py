@@ -2,7 +2,13 @@ from django.db import models
 
 # Create your models here.
 class Audio(models.Model):
-    org_file_name = models.CharField(max_length=50, null=True, blank=True)
-    media = models.FileField(null=True, blank=False, upload_to='uploads/' )
+    media = models.FileField(null=True, blank=False, upload_to='uploads/')
+    TIT2 = models.CharField(null=True, blank=True, max_length=50) #TIT2 / Title
+    TOPE = models.CharField(null=True, blank=True, max_length=50) #TOPE / Original Artist/performer
+    TALB = models.CharField(null=True, blank=True, max_length=50) #TALB / Album
+    TOWN = models.CharField(null=True, blank=True, max_length=50) #TOWN / Owner/Licencee
+    TORY = models.CharField(null=True, blank=True, max_length=50) #TORY / Original Release year
+    TBPM = models.CharField(null=True, blank=True, max_length=50) #TBPM / Beats per minute
+    TSSE = models.CharField(null=True, blank=True, max_length=50) #TSSE / Encoder Settings
 
 

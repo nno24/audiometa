@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h4>The following file contains the ID3 fields</h4>
+            <h5>{{audio.media}}</h5>
+            <form action="">
+                {{ audio_editform }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
