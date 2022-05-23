@@ -7,7 +7,7 @@
             <h5>{{audio.media}}</h5>
             <form action="{% url 'save_media' %}" method="post">
                 {% csrf_token %}
-                {{ audio_editform }}
+                {{ form }}
                 <button class="btn waves-effect waves-light" type="submit">Save</button>
             </form>
         </div>

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Audio
 
+
 class AudioForm(forms.ModelForm):
     class Meta:
         model = Audio
@@ -12,4 +13,12 @@ class AudioEditForm(forms.ModelForm):
         model = Audio
         fields = '__all__'
         exclude = ['media']
-    
+        labels = {
+            'TIT2': 'Song Title',
+            'TALB': 'Song Album',
+            'TOWN': 'Song Owner',
+            'TORY': 'Release Year',
+            'TOPE': 'Artist',
+            'TBPM': 'BPM/Beats per minute',
+            'TSSE': 'Encoder Settings',
+        }

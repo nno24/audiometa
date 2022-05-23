@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 import requests
 from .models import Audio
@@ -15,6 +15,7 @@ tags_dict = {
     'TBPM': 'BPM/Beats per minute',
     'TSSE': 'Encoder Settings',
 }
+
 # Create your views here.
 def get_home(request):
     """ Main view of the application"""
@@ -51,7 +52,6 @@ def view_media(request):
     """ A view to render the media file"""
     audio = Audio.objects.last()
     tags = ID3(audio.media)
-
     #Update if any existing fields from the audio track to model
     for key, value in tags.items():
         print(key, value)
@@ -71,6 +71,7 @@ def view_media(request):
                 audio.TSSE = value
             
             audio.save()
+
     #Fetch the audio file again
     audio = Audio.objects.last()
     audio_editform = AudioEditForm(instance=audio)
@@ -80,3 +81,25 @@ def view_media(request):
         'audio': audio,
     }
     return render(request, 'home/view_media.html', context)
+
+
+def save_media(request):
+    """A view to save media"""
+
+    if request.POST:
+        audio = Audio.objects.last()
+        form = AudioEditForm(request.POST, instance=audio)
+        if form.is_valid():
+            print("Form saved and valid")
+            form.save()
+        else:
+            print("Form not valid")
+
+        
+    context = {
+        'form': form,
+        'audio': audio,
+    }
+
+    return render(request, 'home/save_media.html', context)
+
