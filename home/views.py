@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404
 import requests, os, magic
 from .models import Audio
 from .forms import AudioForm, AudioEditForm
-from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE, TBPM
+from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE, TBPM, TCON, TCOM, TCOP, TIPL
 
 
 tags_dict = {
@@ -16,6 +16,10 @@ tags_dict = {
     'TOPE': 'Artist',
     'TBPM': 'BPM/Beats per minute',
     'TSSE': 'Encoder Settings',
+    'TCON': 'Genre',
+    'TCOM': 'Composer',
+    'TCOP': 'Copyright',
+    'TIPL': 'Involved Persons'
 }
 
 # Create your views here.
@@ -81,6 +85,14 @@ def view_media(request):
                 audio.TBPM = value
             elif key == 'TSSE':
                 audio.TSSE = value
+            elif key == 'TCON':
+                audio.TCON = value
+            elif key == 'TCOM':
+                audio.TCOM = value
+            elif key == 'TCOP':
+                audio.TCOP = value
+            elif key == 'TIPL':
+                audio.TIPL = value
             
             audio.save()
     
@@ -139,6 +151,15 @@ def download(request):
         tags.add(TOPE(text=audio.TOPE))
     if audio.TBPM:
         tags.add(TBPM(text=audio.TBPM))
+    if audio.TCON:
+        tags.add(TCON(text=audio.TCON))
+    if audio.TCOM:
+        tags.add(TCOM(text=audio.TCOM))
+    if audio.TCOP:
+        tags.add(TCOP(text=audio.TCOP))
+    if audio.TIPL:
+        tags.add(TIPL(text=audio.TIPL))
+    
     tags.save()
     
     context = {

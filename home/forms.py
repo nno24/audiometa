@@ -21,4 +21,8 @@ class AudioEditForm(forms.ModelForm):
             'TOPE': 'Artist',
             'TBPM': 'BPM/Beats per minute',
             'TSSE': 'Encoder Settings',
+            'TCON': 'Genre',
+            'TCOM': 'Composer',
+            'TCOP': 'Copyright',
+            'TIPL': 'Involved Persons',
         }

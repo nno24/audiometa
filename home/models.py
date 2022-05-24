@@ -10,5 +10,9 @@ class Audio(models.Model):
     TORY = models.CharField(null=True, blank=True, max_length=50) #TORY / Original Release year
     TBPM = models.CharField(null=True, blank=True, max_length=50) #TBPM / Beats per minute
     TSSE = models.CharField(null=True, blank=True, max_length=50) #TSSE / Encoder Settings
+    TCON = models.CharField(null=True, blank=True, max_length=50) #TCON / Genre
+    TCOM = models.CharField(null=True, blank=True, max_length=50) #TSSE / Composer
+    TCOP = models.CharField(null=True, blank=True, max_length=50) #TCOP / Copyright
+    TIPL = models.CharField(null=True, blank=True, max_length=50) #TIPL / Involved persons
 
 
