@@ -117,7 +117,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-2em487le7m6.ws-eu45.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-qeb13ia3fq1.ws-eu45.gitpod.io']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

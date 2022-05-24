@@ -103,3 +103,14 @@ def save_media(request):
 
     return render(request, 'home/save_media.html', context)
 
+def download(request):
+    """ A view to append saved tags to audio file stored in db - and download file """
+    audio = Audio.objects.last()
+    for field in audio:
+        print(field)
+    
+    context = {
+
+    }
+
+    return render(request, 'home/save_media.html', context)
