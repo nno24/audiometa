@@ -2,18 +2,14 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        {% for msg in messages %}
-        {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <p class="msg-success">{{ msg }}</p>
-        {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <p class="msg-error">{{ msg }}</p>
-        {% endif %}
-        {% endfor %}
-        <form action="{% url 'upload_media' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{audioform.as_table}}
-            <button class="btn waves-effect waves-light" type="submit">Save</button>
-        </form>
+        <div class="col s12 m6 offset-m3">
+            <h3>Upload audio file</h3>
+            <form action="{% url 'upload_media' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{audioform.as_table}}
+                <button class="btn waves-effect waves-light" type="submit"><i class="material-icons right">edit</i>Start Edit</button>
+            </form>
+         </div>
     </div>
 </div>
 {% endblock %}

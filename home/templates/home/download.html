@@ -8,6 +8,8 @@
             {% for key, value in tags.items %}
             <p>{{ key }}: {{value}}</p>
             {% endfor %}
-    </div>
+            <hr>
+            <a href="{% url 'save_media' %}">Go back</a>
+        </div>
 </div>
 {% endblock %}

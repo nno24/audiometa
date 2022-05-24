@@ -21,6 +21,16 @@ tags_dict = {
 # Create your views here.
 def get_home(request):
     """ Main view of the application"""
+    #Delete the previous audio file if any in db
+    try:
+        audio = Audio.objects.last()
+        audio.delete()
+        print("Deleted audio file from db")
+        messages.warning(request, "Deleted audio file - upload a new one")
+    except:
+        print("No audio files in db")
+    
+    #Render the audio file input form
     audioform = AudioForm()
     context = {
         'audioform': audioform,
@@ -36,7 +46,7 @@ def upload_media(request):
         audioform = AudioForm(request.POST, request.FILES)
         if audioform.is_valid():        
             audioform.save()
-            messages.success(request, "Successfully uploaded to server..")
+            messages.success(request, "Successfully uploaded..")
             return redirect('view_media')
         else:
             messages.error(request, "Failed to upload")
@@ -73,7 +83,7 @@ def view_media(request):
                 audio.TSSE = value
             
             audio.save()
-
+    
     #Fetch the audio file again
     audio = Audio.objects.last()
     audio_editform = AudioEditForm(instance=audio)
@@ -98,8 +108,10 @@ def save_media(request):
         if form.is_valid():
             print("Form saved and valid")
             form.save()
+            messages.success(request, "Saved")
         else:
             print("Form not valid")
+            messages.error(request, "Form not valid...not saved")
 
         
     context = {
@@ -117,11 +129,16 @@ def download(request):
     #2 Set the ID3 attributes / metadata to file
     audio_path = 'media/'+str(audio.media)
     tags = ID3(audio_path)
-    tags.add(TIT2(text=audio.TIT2))
-    tags.add(TALB(text=audio.TALB))
-    tags.add(TOWN(text=audio.TOWN))
-    tags.add(TOPE(text=audio.TOPE))
-    tags.add(TBPM(text=audio.TBPM))
+    if audio.TIT2:
+        tags.add(TIT2(text=audio.TIT2))
+    if audio.TALB:
+        tags.add(TALB(text=audio.TALB))
+    if audio.TOWN:
+        tags.add(TOWN(text=audio.TOWN))
+    if audio.TOPE:
+        tags.add(TOPE(text=audio.TOPE))
+    if audio.TBPM:
+        tags.add(TBPM(text=audio.TBPM))
     tags.save()
     
     context = {
@@ -141,5 +158,5 @@ def download(request):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(audio_path)
             return response
         raise Http404
-
+    messages.error(request, "Download failed")
     return render(request, 'home/download.html', context)
