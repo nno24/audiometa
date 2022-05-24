@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-import requests
+from django.conf import settings
+from django.http import HttpResponse, Http404
+import requests, os, magic
 from .models import Audio
 from .forms import AudioForm, AudioEditForm
 from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE, TBPM
@@ -87,6 +89,10 @@ def save_media(request):
     """A view to save media"""
 
     if request.POST:
+        for key, value in request.POST.items():
+            print('Key: %s' % (key))
+            print('value: %s' % (value))
+
         audio = Audio.objects.last()
         form = AudioEditForm(request.POST, instance=audio)
         if form.is_valid():
@@ -105,12 +111,35 @@ def save_media(request):
 
 def download(request):
     """ A view to append saved tags to audio file stored in db - and download file """
+
+    #1 Get the saved audio object from form input
     audio = Audio.objects.last()
-    for field in audio:
-        print(field)
+    #2 Set the ID3 attributes / metadata to file
+    audio_path = 'media/'+str(audio.media)
+    tags = ID3(audio_path)
+    tags.add(TIT2(text=audio.TIT2))
+    tags.add(TALB(text=audio.TALB))
+    tags.add(TOWN(text=audio.TOWN))
+    tags.add(TOPE(text=audio.TOPE))
+    tags.add(TBPM(text=audio.TBPM))
+    tags.save()
     
     context = {
-
+        'tags': tags,
+        'audio': audio,
     }
 
-    return render(request, 'home/save_media.html', context)
+    #Get mime type / or  media type
+    mime = magic.Magic(mime=True)
+    audio_mime = mime.from_file(audio_path)
+    print("the mime type is: ", audio_mime)
+
+    #Start the download
+    if os.path.exists(audio_path):
+        with open(audio_path, 'rb') as ap:
+            response = HttpResponse(ap.read(), content_type=audio_mime)
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(audio_path)
+            return response
+        raise Http404
+
+    return render(request, 'home/download.html', context)

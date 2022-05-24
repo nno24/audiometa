@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pcks="django dj_database_url gunicorn psycopg2-binary Pillow mutagen"
+pcks="django dj_database_url gunicorn psycopg2-binary Pillow mutagen python-magic"
 
 for p in $pcks
 do
