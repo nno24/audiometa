@@ -15,4 +15,8 @@ class Audio(models.Model):
     TCOP = models.CharField(null=True, blank=True, max_length=50) #TCOP / Copyright
     TIPL = models.CharField(null=True, blank=True, max_length=50) #TIPL / Involved persons
 
+    def delete(self, using=None, keep_parents=False):
+        self.media.storage.delete(self.media.name)
+        super().delete()
+
 
