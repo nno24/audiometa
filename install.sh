@@ -9,4 +9,4 @@ do
 done
 
 echo "creating requirements"
-pip3 freeze --local > requirements.txt
+#pip3 freeze --local > requirements.txt

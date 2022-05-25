@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
+from django.contrib import messages, sessions
 from django.conf import settings
 from django.http import HttpResponse, Http404
 import requests
 import os
-import mutagen
+import magic
 from .models import Audio
 from .forms import AudioForm, AudioEditForm
 from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE
@@ -28,10 +28,10 @@ tags_dict = {
 
 def get_home(request):
     """ Main view of the application"""
-
+    
 # Delete the previous audio file if any in db
     try:
-        audio = Audio.objects.last()
+        audio = Audio.objects.get(id=request.session['user_id'])
         audio.delete()
         print("Deleted audio file from db")
         messages.warning(request, "Deleted audio file - upload a new one")
@@ -49,11 +49,15 @@ def get_home(request):
 
 def upload_media(request):
     """A view to handle file uploads"""
+    print(request.session['user_id'])
     print("this is upload media", request.FILES)
     if request.POST:
         audioform = AudioForm(request.POST, request.FILES)
         if audioform.is_valid():
             audioform.save()
+#Get the uploaded audio and grab the uuid
+            audio = Audio.objects.last()
+            request.session['user_id']=str(audio.id)
             messages.success(request, "Successfully uploaded..")
             return redirect('view_media')
         else:
@@ -70,7 +74,8 @@ def upload_media(request):
 
 def view_media(request):
     """ A view to render the media file"""
-    audio = Audio.objects.last()
+    print(request.session['user_id'])
+    audio = Audio.objects.get(id=request.session['user_id'])
     tags = ID3(audio.media)
 # Update if any existing fields from the audio track to model
     for key, value in tags.items():
@@ -100,7 +105,7 @@ def view_media(request):
             audio.save()
 
 # Fetch the audio file again
-    audio = Audio.objects.last()
+    audio = Audio.objects.get(id=request.session['user_id'])
     audio_editform = AudioEditForm(instance=audio)
 
     context = {
@@ -112,13 +117,13 @@ def view_media(request):
 
 def save_media(request):
     """A view to save media"""
-
+    print(request.session['user_id'])
     if request.POST:
         for key, value in request.POST.items():
             print('Key: %s' % (key))
             print('value: %s' % (value))
 
-        audio = Audio.objects.last()
+        audio = Audio.objects.get(id=request.session['user_id'])
         form = AudioEditForm(request.POST, instance=audio)
         if form.is_valid():
             print("Form saved and valid")
@@ -140,7 +145,7 @@ def download(request):
     """
 
 #1 Get the saved audio object from form input
-    audio = Audio.objects.last()
+    audio = Audio.objects.get(id=request.session['user_id'])
 #2 Set the ID3 attributes / metadata to file
     audio_path = 'media/'+str(audio.media)
     tags = ID3(audio_path)

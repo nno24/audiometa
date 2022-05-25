@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'audiometa',
     'home',
 ]
 
@@ -128,7 +127,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-cdg9vkzdi39.ws-eu45.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-3icxqdc6cuv.ws-eu46.gitpod.io']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

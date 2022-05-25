@@ -12,7 +12,7 @@ class AudioEditForm(forms.ModelForm):
     class Meta:
         model = Audio
         fields = '__all__'
-        exclude = ['media']
+        exclude = ['media', 'id']
         labels = {
             'TIT2': 'Song Title',
             'TALB': 'Song Album',

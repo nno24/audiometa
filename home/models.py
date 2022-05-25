@@ -1,9 +1,11 @@
 from django.db import models
+import uuid
 
 
 # Create your models here.
 class Audio(models.Model):
     media = models.FileField(null=True, blank=False, upload_to='uploads/')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     TIT2 = models.CharField(null=True, blank=True, max_length=50)  # Title
     TOPE = models.CharField(null=True, blank=True, max_length=50)  # Artist
     TALB = models.CharField(null=True, blank=True, max_length=50)  # Album
