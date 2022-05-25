@@ -2,11 +2,13 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col s12 m6 offset-m3">
+        <div class="col s12 m6 l4 center">
             <h3>Upload audio file</h3>
+            <hr>
             <form action="{% url 'upload_media' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{audioform.as_table}}
+                <hr>
                 <button class="btn waves-effect waves-light" type="submit"><i class="material-icons right">edit</i>Start Edit</button>
             </form>
          </div>

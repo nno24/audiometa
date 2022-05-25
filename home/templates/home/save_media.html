@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col s12 m6 offset-m3">
+        <div class="col s12 m6 l4">
             <h4>The following file contains the ID3 fields</h4>
             <h5>{{audio.media}}</h5>
             <form action="{% url 'save_media' %}" method="post">
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s8 offset-s4 m6 offset-m6">
+        <div class="col s8 offset-s4 m6 offset-m6 l4 offset-l6">
             <a href="{% url 'download' %}" value="download" download>
                 <button class="btn waves-effect waves-light" type="submit">Download</button>
             </a>
