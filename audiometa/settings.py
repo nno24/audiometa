@@ -23,12 +23,15 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3rsc7@iukb!yw2^((-)_*5ve9x45&z0w-2ys5$#)nle1y!@1)3'
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+else:
+    SECRET_KEY = 'django-insecure-3rsc7@iukb!yw2^((-)_*5ve9x45&z0w-2ys5$#)nle1y!@1)3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["audiometa.herokuapp.com","localhost"]
 
 #X_FRAME_OPTIONS = 'SAMEORIGIN'
 X_FRAME_OPTIONS = 'ALLOW-FROM http://ami.responsivedesign.is/'
@@ -79,12 +82,18 @@ WSGI_APPLICATION = 'audiometa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
-}
+else:
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
