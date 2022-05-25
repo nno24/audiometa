@@ -109,12 +109,17 @@ to be enhanced in the future.
     - Chrome DevTools was used to test responsiveness on all devices,to inspect html/css, and to debug the application.
 1.  [Am I Responsive?](http://ami.responsivedesign.is/)
     - For screenshots and responsive test of the website.
+1.  [PEP8 Checker](http://pep8online.com/)
+    - Used for validating the python code.
 
 
 
 ## Testing
 
 Tried with mp3 and waw files. Inspected the file before and after downloading, and verified the edited meta data was set correctly.
+### PEP8 Checker Results
+#### [views.py](screenshots/pep8online_viewspy.PNG)
+#### [models.py](screenshots/pep8online_modelspy.PNG)
 
 
 ## Deployment
