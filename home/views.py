@@ -181,7 +181,7 @@ def download(request):
             response = HttpResponse(ap.read(), content_type=audio_mime)
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(audio_path)
             return response
-        raise Http404
+    raise Http404
     messages.error(request, "Download failed")
     return render(request, 'home/download.html', context)
     
