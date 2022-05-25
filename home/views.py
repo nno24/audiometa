@@ -57,7 +57,7 @@ def upload_media(request):
             audioform.save()
 #Get the uploaded audio and grab the uuid
             audio = Audio.objects.last()
-            request.session['user_id']=str(audio.id)
+            request.session['user_id']=str(audio.uuid)
             messages.success(request, "Successfully uploaded..")
             return redirect('view_media')
         else:
