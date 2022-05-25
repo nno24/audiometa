@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, Http404
-import requests, os, magic
+import requests
+import os
+import mutagen
 from .models import Audio
 from .forms import AudioForm, AudioEditForm
-from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE, TBPM, TCON, TCOM, TCOP, TIPL
+from mutagen.id3 import ID3, TIT2, TALB, TOWN, TORY, TOPE
+from mutagen.id3 import TBPM, TCON, TCOM, TCOP, TIPL
 
 
 tags_dict = {
@@ -22,10 +25,11 @@ tags_dict = {
     'TIPL': 'Involved Persons'
 }
 
-# Create your views here.
+
 def get_home(request):
     """ Main view of the application"""
-    #Delete the previous audio file if any in db
+
+# Delete the previous audio file if any in db
     try:
         audio = Audio.objects.last()
         audio.delete()
@@ -33,8 +37,8 @@ def get_home(request):
         messages.warning(request, "Deleted audio file - upload a new one")
     except:
         print("No audio files in db")
-    
-    #Render the audio file input form
+
+# Render the audio file input form
     audioform = AudioForm()
     context = {
         'audioform': audioform,
@@ -48,7 +52,7 @@ def upload_media(request):
     print("this is upload media", request.FILES)
     if request.POST:
         audioform = AudioForm(request.POST, request.FILES)
-        if audioform.is_valid():        
+        if audioform.is_valid():
             audioform.save()
             messages.success(request, "Successfully uploaded..")
             return redirect('view_media')
@@ -56,7 +60,7 @@ def upload_media(request):
             messages.error(request, "Failed to upload")
     else:
         audioform = AudioForm()
-    
+
     context = {
         'audioform': audioform,
     }
@@ -68,7 +72,7 @@ def view_media(request):
     """ A view to render the media file"""
     audio = Audio.objects.last()
     tags = ID3(audio.media)
-    #Update if any existing fields from the audio track to model
+# Update if any existing fields from the audio track to model
     for key, value in tags.items():
         print(key, value)
         if key in tags_dict.keys():
@@ -93,10 +97,9 @@ def view_media(request):
                 audio.TCOP = value
             elif key == 'TIPL':
                 audio.TIPL = value
-            
             audio.save()
-    
-    #Fetch the audio file again
+
+# Fetch the audio file again
     audio = Audio.objects.last()
     audio_editform = AudioEditForm(instance=audio)
 
@@ -124,8 +127,6 @@ def save_media(request):
         else:
             print("Form not valid")
             messages.error(request, "Form not valid...not saved")
-
-        
     context = {
         'form': form,
         'audio': audio,
@@ -134,11 +135,13 @@ def save_media(request):
     return render(request, 'home/save_media.html', context)
 
 def download(request):
-    """ A view to append saved tags to audio file stored in db - and download file """
+    """ A view to append saved tags to audio file
+    stored in db - and download file
+    """
 
-    #1 Get the saved audio object from form input
+#1 Get the saved audio object from form input
     audio = Audio.objects.last()
-    #2 Set the ID3 attributes / metadata to file
+#2 Set the ID3 attributes / metadata to file
     audio_path = 'media/'+str(audio.media)
     tags = ID3(audio_path)
     if audio.TIT2:
@@ -161,18 +164,18 @@ def download(request):
         tags.add(TIPL(text=audio.TIPL))
     
     tags.save()
-    
+  
     context = {
         'tags': tags,
         'audio': audio,
     }
 
-    #Get mime type / or  media type
+# Get mime type / or  media type
     mime = magic.Magic(mime=True)
     audio_mime = mime.from_file(audio_path)
     print("the mime type is: ", audio_mime)
 
-    #Start the download
+# Start the download
     if os.path.exists(audio_path):
         with open(audio_path, 'rb') as ap:
             response = HttpResponse(ap.read(), content_type=audio_mime)
@@ -181,3 +184,4 @@ def download(request):
         raise Http404
     messages.error(request, "Download failed")
     return render(request, 'home/download.html', context)
+    
