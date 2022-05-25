@@ -8,3 +8,4 @@ Pillow==9.1.1
 psycopg2-binary==2.9.3
 python-magic==0.4.26
 sqlparse==0.4.2
+requests==2.27.1
