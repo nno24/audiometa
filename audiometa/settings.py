@@ -29,8 +29,8 @@ else:
     SECRET_KEY = 'django-insecure-3rsc7@iukb!yw2^((-)_*5ve9x45&z0w-2ys5$#)nle1y!@1)3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = 'DEVELOPMENT' in os.environ
-DEBUG = False
+DEBUG = 'DEVELOPMENT' in os.environ
+
 
 ALLOWED_HOSTS = ["audiometa.herokuapp.com","localhost"]
 
@@ -127,7 +127,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-qeb13ia3fq1.ws-eu45.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-nno24-audiometa-cdg9vkzdi39.ws-eu45.gitpod.io']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
