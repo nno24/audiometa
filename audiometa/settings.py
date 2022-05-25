@@ -29,7 +29,8 @@ else:
     SECRET_KEY = 'django-insecure-3rsc7@iukb!yw2^((-)_*5ve9x45&z0w-2ys5$#)nle1y!@1)3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+#DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = False
 
 ALLOWED_HOSTS = ["audiometa.herokuapp.com","localhost"]
 
