@@ -1,1 +1,1 @@
-web: gunicorn audiometa:wsgi
+web: gunicorn audiometa.wsgi
