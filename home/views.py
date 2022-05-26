@@ -53,8 +53,15 @@ def upload_media(request):
     if request.POST:
         audioform = AudioForm(request.POST, request.FILES)
         if audioform.is_valid():
+# Check if the file file is okay to use first
+            print("media file is: ",audioform.cleaned_data['media'])
+            try:
+                tags = ID3(audioform.cleaned_data['media'])
+            except:
+                messages.error(request, "The file is not supported")
+                return redirect('home')
             audioform.save()
-#Get the uploaded audio and grab the uuid
+# Get the uploaded audio and grab the id
             audio = Audio.objects.last()
             request.session['user_id']=audio.id
             print("the id is: ", audio.id)
