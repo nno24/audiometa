@@ -49,7 +49,6 @@ def get_home(request):
 
 def upload_media(request):
     """A view to handle file uploads"""
-    print(request.session['user_id'])
     print("this is upload media", request.FILES)
     if request.POST:
         audioform = AudioForm(request.POST, request.FILES)
@@ -57,7 +56,8 @@ def upload_media(request):
             audioform.save()
 #Get the uploaded audio and grab the uuid
             audio = Audio.objects.last()
-            request.session['user_id']=str(audio.uuid)
+            request.session['user_id']=audio.id
+            print("the id is: ", audio.id)
             messages.success(request, "Successfully uploaded..")
             return redirect('view_media')
         else:
