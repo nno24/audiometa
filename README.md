@@ -10,8 +10,7 @@ Save, and download. It's important to save before downloading, if not the latest
 Audiometa is using the [mutagen](https://mutagen.readthedocs.io/en/latest/index.html) library to edit the audio file's ID3 data, or metadata. More about ID3 [here](https://en.wikipedia.org/wiki/ID3)
 
 The audio file is stored temporarliy on a postgres backend in django during editing, and removed when download completed..or the user goes back to the "home" page.
-Bootstrap alerts/messages are used for intuitive messaging for the user, when uploading..and saving. The UX perspective of this application have not been the main priority, but 
-to be enhanced in the future.
+Bootstrap alerts/messages are used for intuitive messaging for the user, when uploading..and saving. The program also include exception handling if the file cannot be used, in cases where wrong file type is selected...and the user will be notified. The UX perspective of this application have not been the main priority, but to be enhanced in the future.
 
 <h2 align="center">
     <img src="screenshots/audiometa.PNG">
@@ -61,19 +60,17 @@ to be enhanced in the future.
         <li>'TCOP': 'Copyright'</li>
         <li>'TIPL': 'Involved Persons'</li>
     </ul>
+-   Django session framework, more users can upload and use the site at the same time without conflict.
 -   Download after save
+-   Exception handling and notifications
 -   Works on all devices
 -   Responsive on all devices
 
 
 ## Features to be added/fixed
 -   Make a dropdown selection of all available id3 fields for more advanced usage.
--   If more people are using uploading at the same time, it can be an issue with querying the correct track. Cause when the app is rendering, saving, or downloading..
-    it is using the following query: "last object inserted" to the database. This is not a good solution. A better solution would be to query the uploaded file by it's name,
-    or unique user/session ID.
 -   Posibility to add images to audio file.
--   Some parts of the css materialize syntax is being overridden by bootstrap. Should be fixed. This is the grid system, like s12, m6, l4 etc is not working at the moment.
-    Maybe only importing the Alerts module from bootstrap would do.
+-   Some parts of the css materialize syntax is being overridden by bootstrap. Should be fixed. This is the grid system, like s12, m6, l4 etc is not working at the moment. Maybe only importing the Alerts module from bootstrap would do.
 -   Automatically close the meessages/Alerts after a timeout. e.g when saving, or uploading the user are notified.
 -   Enhanced UX design.
 -   Add dropzone, so possible to drag/drop files
@@ -117,6 +114,7 @@ to be enhanced in the future.
 ## Testing
 
 Tried with mp3 and waw files. Inspected the file before and after downloading, and verified the edited meta data was set correctly.
+Tried to upload other than audio files, and the user will not be allowed to do this.
 ### PEP8 Checker Results
 #### [views.py](screenshots/pep8online_viewspy.PNG)
 #### [models.py](screenshots/pep8online_modelspy.PNG)
