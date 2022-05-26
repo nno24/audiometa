@@ -9,7 +9,7 @@ Save, and download. It's important to save before downloading, if not the latest
 
 Audiometa is using the [mutagen](https://mutagen.readthedocs.io/en/latest/index.html) library to edit the audio file's ID3 data, or metadata. More about ID3 [here](https://en.wikipedia.org/wiki/ID3)
 
-The audio file is stored temporarliy on a postgres backend in django during editing, and removed when download completed..or the user goes back to the "home" page.
+The audio file is stored temporarliy on a postgres backend in django during editing, and removed when  the user goes back to the "home" page.
 Bootstrap alerts/messages are used for intuitive messaging for the user, when uploading..and saving. The program also include exception handling if the file cannot be used, in cases where wrong file type is selected...and the user will be notified. The UX perspective of this application have not been the main priority, but to be enhanced in the future.
 
 <h2 align="center">
@@ -75,7 +75,7 @@ Bootstrap alerts/messages are used for intuitive messaging for the user, when up
 -   Enhanced UX design.
 -   Add dropzone, so possible to drag/drop files
 -   Possibility to add multiple files at the same time.
--   Automatic deleting of files on a specified timeout, in case the user didn't trigger the events for deleting the file. ( go to home page ( home icon ), or download )
+-   Automatic deleting of files on a specified timeout, in case the user didn't trigger the events for deleting the file. ( go to home page )
 
 ## Technologies Used
 
